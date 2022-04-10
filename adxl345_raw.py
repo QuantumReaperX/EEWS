@@ -1,11 +1,13 @@
 import csv
 import time
+import pandas as pd
 
 accel = input("Enter acceleremoter number: ")
 accel_1 = 10
 accel_2 = 20
 accel_3 = 30
 accel_4 = 40
+raw_data = []
 
 def sensor_raw(accel_number):
     return accel_number
@@ -27,8 +29,12 @@ def get_raw_csv(accel_number):
     with open('raw_data.csv', 'r') as sensor_data:
         sensor_reader = csv.DictReader(sensor_data)
         
-        for line in sensor_reader:
-            print(line)
+        for row in sensor_reader:
+            # print(line)
+            raw_data.append(float(row['raw']))
+    print("Average raw_data: ", sum(raw_data)/len(raw_data))
+
+    
 
 
 match accel:

@@ -15,36 +15,27 @@ accel_4 = adafruit_adxl34x.ADXL345(tca[5])
 
 
 user_command = ""
+user_operation = ""
 
 def offset_sensor(accel_number):
-    accel_1.offset = 0,0,0
-    print(accel_1)
+    accel_number.offset = 0,0,0
+    print(accel_number)
     print("Hold accelerometer flat to set offsets to 0, 0, and -1accelg...")
     time.sleep(1)
-    x = accel_1.raw_x
-    y = accel_1.raw_y
-    z = accel_1.raw_z
+    x = accel_number.raw_x
+    y = accel_number.raw_y
+    z = accel_number.raw_z
     print("Raw x: ", x)
     print("Raw y: ", y)
     print("Raw z: ", z)
 
-    accel_1.offset = (
+    accel_number.offset = (
         round(-x ),
         round(-y ),
         #round(-(z - 250) / 8),  # Z should be '250' at 1g (4mg per bit)
         round(-z),  # Z should be '250' at 1g (4mg per bit)
     )
-    print("Calibrated offsets: ", accel_1.offset)
-#     print(type(accel_number))
-#     x_off = (input("Enter x_offset: "))
-#      x_off = 1.5298373999999997
-#     print(type(x_off))
-#      accel_number._write_register_byte(0x1E, x_off)
-#     y_offset = int(input("Enter y_offset")
-#     accel_number._write_register_byte(0x1F, y_offset)
-#     z_offset = int(input("Enter z_offset")
-#     accel_number._write_register_byte(0x20, z_offset)
-
+    print("Calibrated offsets: ", accel_number.offset)
 
 def set_data_rate(accel_number):
     accel_number._write_register_byte(0x2C,0b0000)
@@ -57,14 +48,86 @@ def set_data_range(accel_number):
 while True:
     user_command = input("Enter accel_number or help: ").lower()
     if user_command == "accel_1":
-        offset_sensor(accel_1)
-        #set_data_range(accel_1)
+        while True:
+            user_operation = input("Enter operation or option: ").lower()
+            if user_operation == "offset":
+                offset_sensor(accel_1)
+            elif user_operation == "rate":
+                set_data_rate(accel_1)
+            elif user_operation == "range":
+                set_data_range(accel_1)
+            elif user_operation == "option":
+                print("""
+offset = sensor offset
+rate = sensor data rate
+range = sensor range
+exit = go back to sensor selection
+            """)
+            elif user_operation == "exit":
+                break
+            else:
+                print("Not recognized operation")
+
     elif user_command == "accel_2":
-        offset_sensor(accel_2)
+        while True:
+            user_operation = input("Enter operation or option: ").lower()
+            if user_operation == "offset":
+                offset_sensor(accel_2)
+            elif user_operation == "rate":
+                set_data_rate(accel_2)
+            elif user_operation == "range":
+                set_data_range(accel_2)
+            elif user_operation == "option":
+                print("""
+offset = sensor offset
+rate = sensor data rate
+range = sensor range
+exit = go back to sensor selection
+            """)
+            elif user_operation == "exit":
+                break
+            else:
+                print("Not recognized operation")
     elif user_command == "accel_3":
-        offset_sensor(accel_3)
+        while True:
+            user_operation = input("Enter operation or option: ").lower()
+            if user_operation == "offset":
+                offset_sensor(accel_3)
+            elif user_operation == "rate":
+                set_data_rate(accel_3)
+            elif user_operation == "range":
+                set_data_range(accel_3)
+            elif user_operation == "option":
+                print("""
+offset = sensor offset
+rate = sensor data rate
+range = sensor range
+exit = go back to sensor selection
+            """)
+            elif user_operation == "exit":
+                break
+            else:
+                print("Not recognized operation")
     elif user_command == "accel_4":
-        aoffset_sensor(accel_4)
+        while True:
+            user_operation = input("Enter operation or option: ").lower()
+            if user_operation == "offset":
+                offset_sensor(accel_4)
+            elif user_operation == "rate":
+                set_data_rate(accel_4)
+            elif user_operation == "range":
+                set_data_range(accel_4)
+            elif user_operation == "option":
+                print("""
+offset = sensor offset
+rate = sensor data rate
+range = sensor range
+exit = go back to sensor selection
+            """)
+            elif user_operation == "exit":
+                break
+            else:
+                print("Not recognized operation")
     elif user_command == "help":
         print("""
 accel_1 = to select accelerometer 1

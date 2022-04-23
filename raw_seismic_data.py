@@ -1,3 +1,5 @@
+'''Gathering Raw Data for Calibration'''
+
 import csv
 import time
 import datetime
@@ -18,7 +20,7 @@ accel_3 = adafruit_adxl34x.ADXL345(tca[4])
 accel_4 = adafruit_adxl34x.ADXL345(tca[5])
 
 '''for testing purpose'''
-# accelerometer = adafruit_adxl34x.ADXL345(i2c) 
+# accelerometer = adafruit_adxl34x.ADXL345(i2c)
 
 now = datetime.now()
 
@@ -40,7 +42,7 @@ class Raw_Data_Logger:
         '''collect data of accel_4 and assign to class variable'''
         self.data_dict['raw_accel_4'] = (now, *accel_4.acceleration)
 
-                
+
     def raw_data_logger(self):
         for file, data in self.data_dict.items():
             with open('raw_seismic_data/' + file + '.csv', 'a+', newline='') as csv_file:
@@ -54,16 +56,15 @@ class Raw_Data_Logger:
         print("{0:%Y-%m-%d-%H:%M:%S} , accel_x1:{1:,.3f}, accel_y1:{2:,.3f}, accel_z1:{3:,.3f}".format(*self.data_dict['raw_accel_1']))
         print("{0:%Y-%m-%d-%H:%M:%S} , accel_x2:{1:,.3f}, accel_y2:{2:,.3f}, accel_z2:{3:,.3f}".format(*self.data_dict['raw_accel_2']))
         print("{0:%Y-%m-%d-%H:%M:%S} , accel_x3:{1:,.3f}, accel_y3:{2:,.3f}, accel_z3:{3:,.3f}".format(*self.data_dict['raw_accel_3']))
-        print("{0:%Y-%m-%d-%H:%M:%S} , accel_x4:{1:,.3f}, accel_y4:{2:,.3f}, accel_z4:{3:,.3f}".format(*self.data_dict['raw_accel_4']))               
-                        
+        print("{0:%Y-%m-%d-%H:%M:%S} , accel_x4:{1:,.3f}, accel_y4:{2:,.3f}, accel_z4:{3:,.3f}".format(*self.data_dict['raw_accel_4']))
+
 def main():
-    while True:
+    for i in range(100):
         raw_logger = Raw_Data_Logger()
         raw_logger.collect_raw_data()
         raw_logger.raw_data_logger()
         raw_logger.print_raw_data()
-        sleep(0.5)
+        sleep(0.25)
 
 main()
-
 

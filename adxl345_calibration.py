@@ -1,4 +1,4 @@
-'''Calibration of adxl345'''
+'''Calibration of adxl345 sensors'''
 
 import time
 import board

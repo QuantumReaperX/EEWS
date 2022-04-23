@@ -52,32 +52,32 @@ class Logger:
 #         for file, data in self.data_dict.items():
 #             with open('seismic_data/' + file + '.csv', 'w', newline='') as csv_file:
 #                 fieldnames = ['Date/Time','Acceleration_x', 'Acceleration_y', 'Acceleration_z']
-#                 csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames) 
-#                 csv_writer.writeheader()               
+#                 csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+#                 csv_writer.writeheader()
 #                 info = {"Date/Time":data[0],"Acceleration_x":data[1],"Acceleration_y":data[2], "Acceleration_z":data[3]}
 #                 csv_writer.writerow(info)
-                
+
     def data_logger(self):
         for file, data in self.data_dict.items():
             with open('seismic_data/' + file + '.csv', 'a+', newline='') as csv_file:
                 csv_writer = csv.writer(csv_file)
                 csv_writer.writerow(data)
-                
+
     def get_raw_csv(self):
         for file, data in self.data_dict.items():
            with open('seismic_data/' + file + '.csv', 'r') as sensor_data:
                 sensor_reader = csv.reader(sensor_data)
-                
+
                 for row in sensor_reader:
-#                     print(data)
-                    x_raw_data.append(float(row[1]))
-                    y_raw_data.append(float(row[2]))
-                    z_raw_data.append(float(row[3]))
-                
-                print("Average x_raw_data: ", sum(x_raw_data)/len(x_raw_data))
-                print("Average y_raw_data: ", sum(y_raw_data)/len(y_raw_data))
-                print("Average z_raw_data: ", sum(z_raw_data)/len(z_raw_data))               
-                        
+                     print(data[1:3])
+                 #   x_raw_data.append(float(row[1]))
+                  #  y_raw_data.append(float(row[2]))
+                   # z_raw_data.append(float(row[3]))
+
+               # print("Average x_raw_data: ", sum(x_raw_data)/len(x_raw_data))
+               # print("Average y_raw_data: ", sum(y_raw_data)/len(y_raw_data))
+               # print("Average z_raw_data: ", sum(z_raw_data)/len(z_raw_data))
+
 def main():
     while True:
         logger = Logger()
@@ -86,9 +86,8 @@ def main():
         logger.data_logger()
         logger.get_raw_csv()
 #         logger.print_data()
-        sleep(1)
+        sleep(0.5)
 
 
 main()
-
 

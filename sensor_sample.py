@@ -14,12 +14,15 @@ accel_2 = adafruit_adxl34x.ADXL345(tca[3])
 accel_3 = adafruit_adxl34x.ADXL345(tca[4])
 accel_4 = adafruit_adxl34x.ADXL345(tca[5])
 
-#accel_1.offset = 0,0,0
+accel_1.offset = 0,0,0
+accel_1.data_rate = 15
+accel_1.range = 0
 print(accel_1.offset)
 print(accel_1.data_rate)
 print(accel_1.range)
 
 while True:
     print(accel_1.acceleration)
+    print(accel_1.data_rate)
+    print(accel_1.range)
     time.sleep(1)
-

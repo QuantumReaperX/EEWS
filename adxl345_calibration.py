@@ -1,3 +1,5 @@
+'''Calibration of adxl345'''
+
 import time
 import board
 import busio
@@ -13,9 +15,9 @@ accel_2 = adafruit_adxl34x.ADXL345(tca[3])
 accel_3 = adafruit_adxl34x.ADXL345(tca[4])
 accel_4 = adafruit_adxl34x.ADXL345(tca[5])
 
-
 user_command = ""
 user_operation = ""
+timer = ""
 
 def offset_sensor(accel_number):
     accel_number.offset = 0,0,0
@@ -32,18 +34,30 @@ def offset_sensor(accel_number):
     accel_number.offset = (
         round(-x ),
         round(-y ),
-        #round(-(z - 250) / 8),  # Z should be '250' at 1g (4mg per bit)
-        round(-z),  # Z should be '250' at 1g (4mg per bit)
+        round(-(z - 250) / 8),  # Z should be '250' at 1g (4mg per bit)
+        #round(-z),  # Z should be '250' at 1g (4mg per bit)
     )
     print("Calibrated offsets: ", accel_number.offset)
 
 def set_data_rate(accel_number):
-    accel_number._write_register_byte(0x2C,0b0000)
+    accel_number.data_rate = int(input("Select sensor data rate from 0-15: "))
+    #accel_number._write_register_byte(0x2C,0b0000)
     print('{0} data rate is: {1}'.format(user_command, accel_number.data_rate))
 
 def set_data_range(accel_number):
-    accel_number._write_register_byte(0x31,0b00)
+
+    #accel_number._write_register_byte(0x31,0b00)
     print('{0} data range is: {1}'.format(user_command, accel_number.range))
+
+def sensor_test(accel_number):
+    print("Accelerometer Properties:\n\tData rate is: {0}\n\tRange is: {1}\n\tOffset is: {2}" .format(accel_number.data_rate,accel_number.range, accel_number.offset))
+    try:
+        timer = float(input("Set time of sensor gathering in seconds: "))
+        for i in range(10):
+            print(accel_number.acceleration)
+            time.sleep(timer)
+    except ValueError:
+        print("Float/Integer is only allowed!")
 
 while True:
     user_command = input("Enter accel_number or help: ").lower()
@@ -63,6 +77,8 @@ rate = sensor data rate
 range = sensor range
 exit = go back to sensor selection
             """)
+            elif user_operation == "test":
+                sensor_test(accel_1)
             elif user_operation == "exit":
                 break
             else:
@@ -84,6 +100,8 @@ rate = sensor data rate
 range = sensor range
 exit = go back to sensor selection
             """)
+            elif user_operation == "test":
+                sensor_test(accel_2)
             elif user_operation == "exit":
                 break
             else:
@@ -104,6 +122,8 @@ rate = sensor data rate
 range = sensor range
 exit = go back to sensor selection
             """)
+            elif user_operation == "test":
+                sensor_test(accel_3)
             elif user_operation == "exit":
                 break
             else:
@@ -124,6 +144,8 @@ rate = sensor data rate
 range = sensor range
 exit = go back to sensor selection
             """)
+            elif user_operation == "test":
+                sensor_test(accel_4)
             elif user_operation == "exit":
                 break
             else:
@@ -134,7 +156,7 @@ accel_1 = to select accelerometer 1
 accel_2 = to select accelerometer 2
 accel_3 = to select accelerometer 3
 accel_4 = to select accelerometer 4
-quit = to exit
+quit = to terminate program
 """)
     elif user_command == "quit":
         break

@@ -26,7 +26,7 @@ ys2 = []
 ys3 = []
 ys4 = []
 
-fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, 1, sharex='col', sharey='row', figsize=(20, 40))
+fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, 1, sharex='col', sharey='row', figsize=(18, 8))
 
 def animate(i, xs, ys1, ys2, ys3, ys4):
 

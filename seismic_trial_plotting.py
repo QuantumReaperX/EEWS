@@ -15,6 +15,16 @@ accel_2 = adafruit_adxl34x.ADXL345(tca[3])
 accel_3 = adafruit_adxl34x.ADXL345(tca[4])
 accel_4 = adafruit_adxl34x.ADXL345(tca[5])
 
+while True:
+    try:
+        z_average_offset = float(input("Enter value for average offset_z: " ))
+        y_average_offset = float(input("Enter value for average offset_y: " ))
+        x_average_offset = float(input("Enter value for average offset_x: " ))
+        break
+    except ValueError:
+        print("Float/Integer only applied")
+        #raise
+
 
 # Parameters
 x_len = 200        # Number of points to display
@@ -27,7 +37,7 @@ y_range = [-20, 20]  # Range of possible Y values to display
 #ax2 = fig.add_subplot(spec[1,0])
 #ax3 = fig.add_subplot(spec[-1,0])
 
-fig, (ax1, ax2, ax3) = plt.subplots(nrows=3, ncols=1, sharex='col', sharey='row', figsize=(20, 40))
+fig, (ax1, ax2, ax3) = plt.subplots(nrows=3, ncols=1, sharex='col', sharey='row', figsize=(18,8), constrained_layout=True)
 
 xs = list(range(0, 200))
 ys1 = [0] * x_len
@@ -42,7 +52,7 @@ ax3.set_ylim(y_range)
 
 # Add labels
 plt.suptitle('Seismic Acceleration')
-fig.text(0.04, 0.5,'Amplitude(m/s$^2$)',  va='center', rotation='vertical')
+fig.text(0.01, 0.5,'Amplitude(m/s$^2$)',  va='center', rotation='vertical')
 #plt.title('Seismic Acceleration')
 plt.xlabel('Time(s)')
 ax1.set_ylabel('Acceleration_Z')
@@ -58,9 +68,9 @@ line3, = ax3.plot(xs, ys3, color='orange', marker='o')
 def animate(i, ys1, ys2, ys3):
 
     # Add y to list the mean of all sensors
-    ys1.append((accel_1.acceleration[2]+accel_2.acceleration[2]+accel_3.acceleration[2]+accel_4.acceleration[2])/4)
-    ys2.append((accel_1.acceleration[1]+accel_2.acceleration[1]+accel_3.acceleration[1]+accel_4.acceleration[1])/4)
-    ys3.append((accel_1.acceleration[0]+accel_2.acceleration[0]+accel_3.acceleration[0]+accel_4.acceleration[0])/4)
+    ys1.append(((accel_1.acceleration[2]+accel_2.acceleration[2]+accel_3.acceleration[2]+accel_4.acceleration[2])/4)-z_average_offset)
+    ys2.append(((accel_1.acceleration[1]+accel_2.acceleration[1]+accel_3.acceleration[1]+accel_4.acceleration[1])/4)-y_average_offset)
+    ys3.append(((accel_1.acceleration[0]+accel_2.acceleration[0]+accel_3.acceleration[0]+accel_4.acceleration[0])/4)-x_average_offset)
 
     # Limit y list to set number of items
     ys1 = ys1[-x_len:]

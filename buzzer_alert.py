@@ -9,3 +9,5 @@ def intensity_level():
         sleep(0.5)
         buzzer.off()
         sleep(0.5)
+
+intensity_level()

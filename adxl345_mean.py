@@ -19,9 +19,10 @@ z_raw_data = []
 
 mean_accel_x = []
 file = ""
-user_command = ""
+mean = ""
+user_input = ""
 
-def get_sensor_average():
+def get_sensor_average(file, mean):
     with open('raw_seismic_data/' + file + '.csv', 'r') as sensor_data:
         sensor_reader = csv.reader(sensor_data)
 
@@ -33,34 +34,47 @@ def get_sensor_average():
     mean_accel_x = sum(x_raw_data)/len(x_raw_data)
     mean_accel_y = sum(y_raw_data)/len(y_raw_data)
     mean_accel_z = sum(z_raw_data)/len(z_raw_data)
-
+    mean_values = (mean_accel_x, mean_accel_y, mean_accel_z)
     print("Mean x_raw_data: ", mean_accel_x)
     print("Mean y_raw_data: ", mean_accel_y)
     print("Mean z_raw_data: ", mean_accel_z)
 
-while True:
-    user_command = input("Enter accel_number or help: ").lower()
-    if user_command == "accel_1":
-        file = "raw_accel_1"
-        get_sensor_average()
-    elif user_command == "accel_2":
-        file = "raw_accel_2"
-        get_sensor_average()
-    elif user_command == "accel_3":
-        file = "raw_accel_3"
-        get_sensor_average()
-    elif user_command == "accel_4":
-        file = "raw_accel_4"
-        get_sensor_average()
-    elif user_command == "help":
-        print("""
-accel_1 = to select accelerometer 1
-accel_2 = to select accelerometer 2
-accel_3 = to select accelerometer 3
-accel_4 = to select accelerometer 4
-quit = to exit
-""")
-    elif user_command == "quit":
-        break
-    else:
-        print("Not recognized, enter help to see more")
+    with open('raw_seismic_data/' + mean + '.csv', 'w') as sensor_data:
+        sensor_writer = csv.writer(sensor_data)
+        sensor_writer.writerow(mean_values)
+
+    print("Mean values saved to csv file")
+
+def accel_selection():
+    while True:
+        user_input = input("Enter accel_number to get mean values or help: ").lower()
+        if user_input == "accel_1":
+            file = "raw_accel_1"
+            mean = "mean_accel_1"
+            get_sensor_average(file, mean)
+        elif user_input == "accel_2":
+            file = "raw_accel_2"
+            mean = "mean_accel_2"
+            get_sensor_average(file, mean)
+        elif user_input == "accel_3":
+            file = "raw_accel_3"
+            mean = "mean_accel_3"
+            get_sensor_average(file, mean)
+        elif user_input == "accel_4":
+            file = "raw_accel_4"
+            mean = "mean_accel_4"
+            get_sensor_average(file, mean)
+        elif user_input == "help":
+            print("""
+    accel_1 = to select accelerometer 1
+    accel_2 = to select accelerometer 2
+    accel_3 = to select accelerometer 3
+    accel_4 = to select accelerometer 4
+    quit = to exit
+    """)
+        elif user_input == "quit":
+            break
+        else:
+            print("Not recognized, enter help to see more")
+
+# accel_selection()

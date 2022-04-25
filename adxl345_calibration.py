@@ -5,6 +5,8 @@ import board
 import busio
 import adafruit_adxl34x
 import adafruit_tca9548a
+from raw_seismic_data import *
+from adxl345_mean import *
 
 i2c = busio.I2C(board.SCL, board.SDA)
 tca = adafruit_tca9548a.TCA9548A(i2c)
@@ -34,7 +36,6 @@ def offset_sensor(accel_number):
         round(-x ),
         round(-y ),
         round(-(z - 250) / 8),  # Z should be '250' at 1g (4mg per bit)
-        #round(-z),  # Z should be '250' at 1g (4mg per bit)
     )
     print("Calibrated offsets: ", accel_number.offset)
 
@@ -74,7 +75,7 @@ def set_data_rate(accel_number):
 
 def set_data_range(accel_number):
     '''
-     RANGE_16_G: int = const(0b11)  # +/- 16g
+    RANGE_16_G: int = const(0b11)  # +/- 16g
     RANGE_8_G: int = const(0b10)  # +/- 8g
     RANGE_4_G: int = const(0b01)  # +/- 4g
     RANGE_2_G: int = const(0b00)  # +/- 2g (default value)
@@ -96,6 +97,41 @@ def sensor_test(accel_number):
     except ValueError:
         print("Float/Integer is only allowed!")
 
+def set_to_max_rate():
+    accel_1.data_rate, accel_2.data_rate, accel_3.data_rate, accel_4.data_rate = 15, 15, 15, 15
+    print("Sensors are set to max data_rate of {0}".format(15))
+
+def set_to_max_range():
+    accel_1.range, accel_2.range, accel_3.range, accel_4.range, = 3, 3, 3, 3
+    print("Sensors are set to max data_range of {0}".format(3))
+
+def set_to_zero_g(accel_number):
+    accel_number.offset = 0,0,0
+    time.sleep(1)
+    print(accel_number)
+    print("Hold accelerometer flat to set offsets to 0, 0, and -1accelg...")
+    time.sleep(1)
+    x = accel_number.raw_x
+    y = accel_number.raw_y
+    z = accel_number.raw_z
+    print("Raw x: ", x)
+    print("Raw y: ", y)
+    print("Raw z: ", z)
+
+    accel_number.offset = (
+        round(-x ),
+        round(-y ),
+        round(-(z + 250) / 8),  #Z should be '250' at -1g (4mg per bit)
+    )
+    print("Calibrated offsets: ", accel_number.offset)
+
+def show_property():
+    print("*****Initial Sensor Properties*****")
+    print("Accel_1: data_rate is {0}, data_range is {1}, offset is {2}".format(accel_1.data_rate, accel_1.range, accel_1.offset))
+    print("Accel_2: data_rate is {0}, data_range is {1}, offset is {2}".format(accel_2.data_rate, accel_2.range, accel_2.offset))
+    print("Accel_3: data_rate is {0}, data_range is {1}, offset is {2}".format(accel_3.data_rate, accel_3.range, accel_3.offset))
+    print("Accel_4: data_rate is {0}, data_range is {1}, offset is {2}".format(accel_4.data_rate, accel_4.range, accel_4.offset))
+
 def exception_alert():
     print("Integer input is only accepted")
 
@@ -116,10 +152,13 @@ offset = sensor offset
 rate = sensor data rate
 range = sensor range
 reset = reset sensor to initial
+zero = -1g offset of the sensor
 exit = go back to sensor selection
             """)
             elif user_operation == "test":
                 sensor_test(accel_1)
+            elif user_operation == "zero":
+                set_to_zero_g(accel_1)
             elif user_operation == "reset":
                 reset(accel_1)
             elif user_operation == "exit":
@@ -142,10 +181,13 @@ offset = sensor offset
 rate = sensor data rate
 range = sensor range
 reset = reset sensor to initial
+zero = -1g offset of the sensor
 exit = go back to sensor selection
             """)
             elif user_operation == "test":
                 sensor_test(accel_2)
+            elif user_operation == "zero":
+                set_to_zero_g(accel_2)
             elif user_operation == "reset":
                 reset(accel_2)
             elif user_operation == "exit":
@@ -167,10 +209,13 @@ offset = sensor offset
 rate = sensor data rate
 range = sensor range
 reset = reset sensor to initial
+zero = -1g offset of the sensor
 exit = go back to sensor selection
             """)
             elif user_operation == "test":
                 sensor_test(accel_3)
+            elif user_operation == "zero":
+                set_to_zero_g(accel_3)
             elif user_operation == "reset":
                 reset(accel_3)
             elif user_operation == "exit":
@@ -192,10 +237,13 @@ offset = sensor offset
 rate = sensor data rate
 range = sensor range
 reset = reset sensor to initial
+zero = -1g offset of the sensor
 exit = go back to sensor selection
             """)
             elif user_operation == "test":
                 sensor_test(accel_4)
+            elif user_operation == "zero":
+                set_to_zero_g(accel_4)
             elif user_operation == "reset":
                 reset(accel_4)
             elif user_operation == "exit":
@@ -203,11 +251,15 @@ exit = go back to sensor selection
             else:
                 print("Not recognized operation")
     elif user_command == "show":
-        print("*****Initial Sensor Properties*****")
-        print("Accel_1: data_rate is {0}, data_range is {1}, offset is {2}".format(accel_1.data_rate, accel_1.range, accel_1.offset))
-        print("Accel_2: data_rate is {0}, data_range is {1}, offset is {2}".format(accel_2.data_rate, accel_2.range, accel_2.offset))
-        print("Accel_3: data_rate is {0}, data_range is {1}, offset is {2}".format(accel_3.data_rate, accel_3.range, accel_3.offset))
-        print("Accel_4: data_rate is {0}, data_range is {1}, offset is {2}".format(accel_4.data_rate, accel_4.range, accel_4.offset))
+        show_property()
+    elif user_command == "maxrate":
+        set_to_max_rate()
+    elif user_command == "maxrange":
+        set_to_max_range()
+    elif user_command == "raw":
+        main()
+    elif user_command == "mean":
+        accel_selection()
     elif user_command == "help":
         print("""
 accel_1 = to select accelerometer 1
@@ -215,6 +267,8 @@ accel_2 = to select accelerometer 2
 accel_3 = to select accelerometer 3
 accel_4 = to select accelerometer 4
 show = to show all sensor properties
+maxrange = setting to max range sensor property
+maxrate = setting to max rate sensor property
 quit = to terminate program
 """)
     elif user_command == "quit":

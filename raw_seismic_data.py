@@ -45,7 +45,7 @@ class Raw_Data_Logger:
 
     def raw_data_logger(self):
         for file, data in self.data_dict.items():
-            with open('raw_seismic_data/' + file + '.csv', 'a+', newline='') as csv_file:
+            with open('raw_seismic_data/' + file + '.csv', 'w', newline='') as csv_file:
                 csv_writer = csv.writer(csv_file)
                 csv_writer.writerow(data)
 
@@ -66,5 +66,4 @@ def main():
         raw_logger.print_raw_data()
         sleep(0.25)
 
-main()
-
+# main()

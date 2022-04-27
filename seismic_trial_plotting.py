@@ -42,7 +42,7 @@ y_range = [-20, 20]  #Range of possible Y values to display
 # ax2 = fig.add_subplot(spec[1,0])
 # ax3 = fig.add_subplot(spec[-1,0])
 
-fig, (ax1, ax2, ax3) = plt.subplots(nrows=3, ncols=1, sharex='col', sharey='row', figsize=(18,8), constrained_layout=True)
+fig, (ax1, ax2, ax3) = plt.subplots(nrows=3, ncols=1, sharex='col', sharey='row', figsize=(13.5,6), constrained_layout=True)
 
 xs = list(range(0, 100))
 ys1 = [0] * x_len

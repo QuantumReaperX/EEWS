@@ -39,11 +39,11 @@ def get_sensor_average(file, mean):
     print("Mean y_raw_data: ", mean_accel_y)
     print("Mean z_raw_data: ", mean_accel_z)
 
-    with open('raw_seismic_data/' + mean + '.csv', 'w') as sensor_data:
+    with open('offset_data/' + mean + '.csv', 'w') as sensor_data:
         sensor_writer = csv.writer(sensor_data)
         sensor_writer.writerow(mean_values)
 
-    print("Mean values saved to csv file")
+    print("Mean values saved to offset_data folder")
 
 def accel_selection():
     while True:

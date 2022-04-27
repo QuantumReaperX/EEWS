@@ -3,11 +3,11 @@ from time import sleep
 
 buzzer = Buzzer(4)
 
-def intensity_level():
-    while True:
-        buzzer.on()
-        sleep(0.5)
-        buzzer.off()
-        sleep(0.5)
+def intensity_level_1():
+    buzzer.on()
+    sleep(1)
+    buzzer.off()
+    sleep(0.5)
 
-intensity_level()
+def intensity_level_2():
+    pass

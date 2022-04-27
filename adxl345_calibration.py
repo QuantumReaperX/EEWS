@@ -266,6 +266,7 @@ accel_1 = to select accelerometer 1
 accel_2 = to select accelerometer 2
 accel_3 = to select accelerometer 3
 accel_4 = to select accelerometer 4
+mean = get mean of all sensor for calibration
 show = to show all sensor properties
 maxrange = setting to max range sensor property
 maxrate = setting to max rate sensor property

@@ -52,14 +52,39 @@ class Logger():
         # Thread.__init__(self)
 
     def collect_data(self):
+        with open('offset_data/mean_accel_1.csv', 'r') as sensor1_data:
+            sensor1_reader = csv.reader(sensor1_data)
+            for row1 in sensor1_reader:
+                accel_1_offset = row1
+        with open('offset_data/mean_accel_2.csv', 'r') as sensor2_data:
+            sensor2_reader = csv.reader(sensor2_data)
+            for row2 in sensor2_reader:
+                accel_2_offset = row2
+        with open('offset_data/mean_accel_3.csv', 'r') as sensor3_data:
+            sensor3_reader = csv.reader(sensor3_data)
+            for row3 in sensor3_reader:
+                accel_3_offset = row3
+        with open('offset_data/mean_accel_4.csv', 'r') as sensor4_data:
+            sensor4_reader = csv.reader(sensor4_data)
+            for row4 in sensor4_reader:
+                accel_4_offset = row4
         '''collect data of accel_1 and assign to class variable'''
-        self.data_dict['accel_1'] = (now, *accel_1.acceleration)
+        self.data_dict['accel_1'] = (now, accel_1.acceleration[0]-float(accel_1_offset[0]), accel_1.acceleration[1]-float(accel_1_offset[1]), accel_1.acceleration[2]-float(accel_1_offset[2]))
         '''collect data of accel_2 and assign to class variable'''
-        self.data_dict['accel_2'] = (now, *accel_2.acceleration)
+        self.data_dict['accel_2'] = (now, accel_2.acceleration[0]-float(accel_2_offset[0]), accel_2.acceleration[1]-float(accel_2_offset[1]), accel_2.acceleration[2]-float(accel_2_offset[2]))
         '''collect data of accel_3 and assign to class variable'''
-        self.data_dict['accel_3'] = (now, *accel_3.acceleration)
+        self.data_dict['accel_3'] = (now, accel_3.acceleration[0]-float(accel_3_offset[0]), accel_3.acceleration[1]-float(accel_3_offset[1]), accel_3.acceleration[2]-float(accel_3_offset[2]))
         '''collect data of accel_4 and assign to class variable'''
-        self.data_dict['accel_4'] = (now, *accel_4.acceleration)
+        self.data_dict['accel_4'] = (now, accel_4.acceleration[0]-float(accel_4_offset[0]), accel_4.acceleration[1]-float(accel_4_offset[1]), accel_4.acceleration[2]-float(accel_4_offset[2]))
+
+#         '''collect data of accel_1 and assign to class variable'''
+#         self.data_dict['accel_1'] = (now, *accel_1.acceleration)
+#         '''collect data of accel_2 and assign to class variable'''
+#         self.data_dict['accel_2'] = (now, *accel_2.acceleration)
+#         '''collect data of accel_3 and assign to class variable'''
+#         self.data_dict['accel_3'] = (now, *accel_3.acceleration)
+#         '''collect data of accel_4 and assign to class variable'''
+#         self.data_dict['accel_4'] = (now, *accel_4.acceleration)
 
     def print_data(self):
         '''print select data with formatting'''
@@ -80,14 +105,6 @@ class Logger():
         accel_1.enable_motion_detection(threshold = 20)
         motion_1 = str(accel_1.events["motion"])
 #         print(motion_1)
-        if motion_1 == 'True':
-            intensity_level_1()
-            red_led()
-        elif motion_1 == 'False':
-            blue_led()
-            red_led_off()
-        else:
-            pass
 
         accel_2.enable_motion_detection()
         motion_2 = str(accel_2.events["motion"])
@@ -99,10 +116,20 @@ class Logger():
 
         accel_4.enable_motion_detection()
         motion_4 = str(accel_4.events["motion"])
-#         print(motion_4)
+     #    print(motion_4)
 
-#         motion_compare = motion_1, motion_2, motion_3, motion_4
-#         print(motion_compare)
+        if motion_1 == 'True':
+            intensity_level_1()
+            red_led()
+        elif motion_1 == 'False':
+            blue_led()
+            red_led_off()
+        else:
+            pass
+        # motion_compare = [motion_1, motion_2, motion_3, motion_4]
+#         print(type(motion_compare))
+#         detected = all(motion_compare)
+#         print(detected)
 
 def main():
     while True:

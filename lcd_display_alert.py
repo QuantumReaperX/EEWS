@@ -36,4 +36,5 @@ def display_alert():
         pass
     finally:
         clear_lcd()
-    return
+
+display_alert()

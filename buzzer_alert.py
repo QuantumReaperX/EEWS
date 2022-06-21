@@ -3,11 +3,14 @@ from time import sleep
 
 buzzer = Buzzer(4)
 
-def intensity_level_1():
+def eq_detected():
     buzzer.on()
-    sleep(1)
+    sleep(10)
     buzzer.off()
-    sleep(0.5)
+    sleep(0.05)
 
-def intensity_level_2():
-    pass
+def no_eq_detected():
+    buzzer.off()
+    sleep(0.05)
+
+# eq_detected()

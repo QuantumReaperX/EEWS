@@ -7,6 +7,9 @@ import adafruit_adxl34x
 import adafruit_tca9548a
 from raw_seismic_data import *
 from adxl345_mean import *
+from adxl345_mean_cal import *
+from calibrated_seismic_data import *
+# from adxl345_raw import *
 
 i2c = busio.I2C(board.SCL, board.SDA)
 tca = adafruit_tca9548a.TCA9548A(i2c)
@@ -257,9 +260,13 @@ exit = go back to sensor selection
     elif user_command == "maxrange":
         set_to_max_range()
     elif user_command == "raw":
-        main()
+        raw_main()
+    elif user_command == "cal":
+        calibrated_main()
     elif user_command == "mean":
         accel_selection()
+    elif user_command == "cal_mean":
+        cal_accel_selection()
     elif user_command == "help":
         print("""
 accel_1 = to select accelerometer 1
@@ -270,6 +277,9 @@ mean = get mean of all sensor for calibration
 show = to show all sensor properties
 maxrange = setting to max range sensor property
 maxrate = setting to max rate sensor property
+raw = get raw acceleration data
+cal_mean = get mean of calibrated data
+cal = get calibated data
 quit = to terminate program
 """)
     elif user_command == "quit":

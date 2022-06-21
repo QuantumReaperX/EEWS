@@ -34,18 +34,18 @@ class Raw_Data_Logger:
 
     def collect_raw_data(self):
         '''collect data of accel_1 and assign to class variable'''
-        self.data_dict['raw_accel_1'] = (now, *accel_1.acceleration)
+        self.data_dict['raw_accel_1'] = (datetime.now(), *accel_1.acceleration)
         '''collect data of accel_2 and assign to class variable'''
-        self.data_dict['raw_accel_2'] = (now, *accel_2.acceleration)
+        self.data_dict['raw_accel_2'] = (datetime.now(), *accel_2.acceleration)
         '''collect data of accel_3 and assign to class variable'''
-        self.data_dict['raw_accel_3'] = (now, *accel_3.acceleration)
+        self.data_dict['raw_accel_3'] = (datetime.now(), *accel_3.acceleration)
         '''collect data of accel_4 and assign to class variable'''
-        self.data_dict['raw_accel_4'] = (now, *accel_4.acceleration)
+        self.data_dict['raw_accel_4'] = (datetime.now(), *accel_4.acceleration)
 
 
     def raw_data_logger(self):
         for file, data in self.data_dict.items():
-            with open('raw_seismic_data/' + file + '.csv', 'w', newline='') as csv_file:
+            with open('raw_seismic_data/' + file + '.csv', 'a', newline='') as csv_file:
                 csv_writer = csv.writer(csv_file)
                 csv_writer.writerow(data)
 
@@ -58,12 +58,12 @@ class Raw_Data_Logger:
         print("{0:%Y-%m-%d-%H:%M:%S} , accel_x3:{1:,.3f}, accel_y3:{2:,.3f}, accel_z3:{3:,.3f}".format(*self.data_dict['raw_accel_3']))
         print("{0:%Y-%m-%d-%H:%M:%S} , accel_x4:{1:,.3f}, accel_y4:{2:,.3f}, accel_z4:{3:,.3f}".format(*self.data_dict['raw_accel_4']))
 
-def main():
+def raw_main():
     for i in range(100):
         raw_logger = Raw_Data_Logger()
         raw_logger.collect_raw_data()
         raw_logger.raw_data_logger()
         raw_logger.print_raw_data()
-        sleep(0.25)
+        sleep(0.05)
 
 # main()

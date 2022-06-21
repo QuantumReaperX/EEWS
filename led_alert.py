@@ -15,15 +15,16 @@ blue = LED(22)
 
 def green_led():
     green.blink(0.5,0.25)
-    print("Seismic logging...")
+#     print("Initialized...")
 
 def red_led():
     red.on()
-    print("Seismic alert...")
+    sleep(5)
+#     print("Seismic alert...")
 
 def red_led_off():
     red.off()
 
 def blue_led():
     blue.blink(1,1)
-    print("No seismic event...")
+#     print("No seismic event...")

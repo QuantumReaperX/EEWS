@@ -17,13 +17,12 @@ x_raw_data = []
 y_raw_data = []
 z_raw_data = []
 
-# mean_accel_x = []
 file = ""
 mean = ""
 user_input = ""
 
-def get_sensor_average(file, mean):
-    with open('raw_seismic_data/' + file + '.csv', 'r') as sensor_data:
+def get_cal_sensor_average(file, mean):
+    with open('calibrated_seismic_data/' + file + '.csv', 'r') as sensor_data:
         sensor_reader = csv.reader(sensor_data)
 
         for row in sensor_reader:
@@ -45,25 +44,25 @@ def get_sensor_average(file, mean):
 
     print("Mean values saved to offset_data folder")
 
-def accel_selection():
+def cal_accel_selection():
     while True:
         user_input = input("Enter accel_number to get mean values or help: ").lower()
         if user_input == "accel_1":
-            file = "raw_accel_1"
-            mean = "mean_accel_1"
-            get_sensor_average(file, mean)
+            file = "cal_accel_1"
+            mean = "mean_cal_accel_1"
+            get_cal_sensor_average(file, mean)
         elif user_input == "accel_2":
-            file = "raw_accel_2"
-            mean = "mean_accel_2"
-            get_sensor_average(file, mean)
+            file = "cal_accel_2"
+            mean = "mean_cal_accel_2"
+            get_cal_sensor_average(file, mean)
         elif user_input == "accel_3":
-            file = "raw_accel_3"
+            file = "cal_accel_3"
             mean = "mean_accel_3"
-            get_sensor_average(file, mean)
+            get_cal_sensor_average(file, mean)
         elif user_input == "accel_4":
-            file = "raw_accel_4"
-            mean = "mean_accel_4"
-            get_sensor_average(file, mean)
+            file = "cal_accel_4"
+            mean = "mean_cal_accel_4"
+            get_cal_sensor_average(file, mean)
         elif user_input == "help":
             print("""
     accel_1 = to select accelerometer 1
